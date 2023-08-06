@@ -4,7 +4,8 @@ import connectDB from "./config/db";
 import { errorResponserHandler } from "./middleware/errorHandler";
 import { invalidPathHandler } from "./middleware/errorHandler";
 //routes
-import userRoutes from "./routes/userRoutes"
+import userRoutes from "./routes/userRoutes";
+import postRoutes from "./routes/postRoutes";
 
 dotenv.config();
 connectDB();  
@@ -15,7 +16,12 @@ app.get("/",(req, res)=>{
     res.send("sever is runing...");
 });
 
-app.use('/api/users',userRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/posts', postRoutes);
+
+//static assets
+//app.use("/uploads",express.static(path.join(__dirname, "/uploads")));
+
 app.use(invalidPathHandler);
 app.use(errorResponserHandler);
 

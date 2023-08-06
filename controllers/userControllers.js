@@ -95,7 +95,7 @@ const updateProfile  = async(req, res, next) =>{
             user.password = req.body.password;
         }
 
-        const updatedUserProfile = await user.save();
+    const updatedUserProfile = await user.save();
         res.json({
             _id:updatedUserProfile._id,
             avatar:updatedUserProfile.avatar,
@@ -122,11 +122,16 @@ const updateProfilePicture = async (req, res, next) =>{
             } else {
                 //every thing went well
                 if(req.file){
-                    const updatedUser = await User.findByIdAndUpdate(req.user._id,{
-                        avatar:req.file.filename,
-
-                    },{new:true}
-                    );
+                    //this will also remove previous profile picture from the database 
+                    let filename;
+                    let updatedUser = await User.findByIdAndUpdate(req.user._id); // but if u want to keep the previous file then add this line inside this function snd delete till line 136       //avatar:req.file.filename, },{new:true}
+                    
+                    filename = updatedUser.avatar;
+                    if(filename){
+                        fileRemover(filename);
+                    }
+                    updatedUser.avatar = req.file.filename;
+                    await updatedUser.save();
                     res.json({
                         _id:updatedUser._id,
                         avatar:updatedUser.avatar,
