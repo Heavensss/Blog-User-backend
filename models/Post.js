@@ -11,14 +11,14 @@ const PostSchema = new Schema({
     categories: [{type: Schema.Types.ObjectId, ref: "PostCategories"}]
 
 },
-{timestamps:true}
+{timestamps:true, toJSON:{virtuals: true}}
 );
 
 //the virtual is used to create a relationship btw post n comment
 PostSchema.virtual("comments", {
     ref:"Comment",
     localField: "_id", //id of this post schema
-    foreignField: "postId" //postid in the comment schema
+    foreignField: "post" //postid in the comment schema
 })
 
 const Post = model("Post",PostSchema);
