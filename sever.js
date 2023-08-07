@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from "path";
 import connectDB from "./config/db";
 import { errorResponserHandler } from "./middleware/errorHandler";
 import { invalidPathHandler } from "./middleware/errorHandler";
@@ -23,7 +24,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 
 //static assets
-//app.use("/uploads",express.static(path.join(__dirname, "/uploads")));
+app.use("/uploads",express.static(path.join(__dirname, "/uploads")));
 
 app.use(invalidPathHandler);
 app.use(errorResponserHandler);
